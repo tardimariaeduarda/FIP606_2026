@@ -1,0 +1,219 @@
+---
+title: "aula6"
+format: html
+editor: visual
+---
+
+#  Conjuntos de dados com 2 fatores
+
+### Dados: fungicida_vaso
+
+```{r}
+library(readxl)
+library(tidyverse)
+library(ggplot2)
+
+fungicidas <- read_excel("dados_diversos.xlsx","fungicida_vaso") # fator dose vai ser qualitativo (só tem 2: 0.5 e 2); 2 respostas (severidade na planta e semente infectadas)
+
+fungicidas2 <- fungicidas |>
+  mutate (incidencia = inf_seeds/n_seeds,
+          dose = factor(dose))
+
+
+
+```
+
+## Visualização 
+
+```{r}
+
+fungicidas2 |>
+  mutate(dose = factor(dose)) |>
+  ggplot(aes(treat, severity, color = dose))+
+  geom_jitter(width = 0.1)+
+  facet_wrap(~ dose)+ # separa os grágicos 
+  theme(legend.position = "none")
+
+
+
+interaction.plot(fungicidas2$treat, fungicidas2$dose, fungicidas2$severity) # se cruza: tem interação, dose depende do fungicida
+
+```
+
+## Modelo de análise
+
+```{r}
+# Modelo 1
+m1 <- lm(severity ~ treat, data = fungicidas2)
+anova(m1)
+
+# Modelo 2
+m2 <- lm(severity ~ dose, data = fungicidas2)
+anova(m2)
+
+# Modelo 3: e a interação? Quando tem mais de 1 fator, roda ele primeiro
+
+# Modelo 3
+m3 <- lm(severity ~ treat * dose, data = fungicidas2)
+anova(m3) # interação siginificativa, a eficiência do produto depende da dose
+
+
+# Premissas
+library(DHARMa)
+plot(simulateResiduals(m3))
+
+# Comparação entre os fungicidas
+library(emmeans)
+medias_m3 <- emmeans(m3,~ treat | dose)
+medias_m3
+
+# Comparação entre as dose (inverter ~ dose | treat)
+medias_m4 <- emmeans(m3,~ dose | treat)
+medias_m4
+
+library(multcomp) # Recomendado tabela com interação
+cld(medias_m3, Letters = letters)
+cld(medias_m4, Letters = letters)
+
+# se nao tivesse interação significativa, uma ANOVA para cada um, representa em gráficos (um de dose e um dos fungicidas)
+
+
+
+
+```
+
+|                            |              |              |
+|----------------------------|--------------|--------------|
+| **Tratamento (Fungicida)** | **Dose 0.5** | **Dose 2.0** |
+| **Ionic liquid**           | 0,2921 Aa    | 0,0501 Ab    |
+| **Tebuconazole**           | 0,0210 Ba    | 0,0202 Aa    |
+
+## Dados Fungicida campo
+
+```{r}
+campo <- read_excel("dados_diversos.xlsx","fungicida_campo")
+campo2 <-  campo |>
+  mutate(trat = factor(TRAT),
+         bloco = factor(BLOCO)) |>
+ dplyr::select(trat, bloco, PROD)
+
+```
+
+## Visualização de dados
+
+```{r}
+
+campo2 |>
+  ggplot(aes(trat, PROD,))+
+  geom_jitter( width = 0.05, alpha = 0.5)+
+  ylim(1000, 6000)+
+  stat_summary()+ # adiciona media e erro padrao
+  theme_classic()+
+  labs( x= "Tratamento fungicida",
+        y = "Produtividade (k/ha)")
+
+```
+
+### Modelo ANOVA
+
+```{r}
+
+m_bloco <- lm(PROD ~ trat + bloco, data = campo2)
+anova(m_bloco) # sem efeito do bloco
+ # Premissas
+plot(simulateResiduals(m_bloco))
+
+# Comparação da médias
+
+medias_m_bloco <- emmeans(m_bloco, ~ trat)
+cld(medias_m_bloco, Letters = letters)
+```
+
+```{r}
+
+# Gráfico pelo Gemini
+library(ggplot2)
+
+# 1. Preparar os dados do CLD (baseado no seu output)
+dados_cld <- data.frame(
+  trat = factor(c(1, 2, 8, 3, 5, 7, 4, 6)),
+  emmean = c(4219, 4935, 5078, 5110, 5122, 5128, 5140, 5256),
+  lower.CL = c(3800, 4516, 4659, 4691, 4703, 4709, 4722, 4838),
+  upper.CL = c(4638, 5354, 5497, 5529, 5541, 5546, 5559, 5675),
+  group = c("a", "ab", "ab", "ab", "ab", "ab", "ab", "b")
+)
+
+# 2. Gerar o gráfico
+ggplot(dados_cld, aes(x = trat, y = emmean)) +
+  # Adiciona os dados brutos (jitter) - substitua 'df_original' pelo seu banco de dados
+  # geom_jitter(data = df_original, aes(x = tratamento, y = resposta), 
+  #             width = 0.1, alpha = 0.3, color = "gray") +
+  
+  # Adiciona o Intervalo de Confiança
+  geom_errorbar(aes(ymin = lower.CL, ymax = upper.CL), width = 0.1, size = 0.8) +
+  
+  # Adiciona a Média
+  geom_point(size = 3, color = "blue") +
+  
+  # Adiciona as letras de significância acima do IC superior
+  geom_text(aes(label = group, y = upper.CL), vjust = -0.5, size = 5) +
+  
+  # Estética do gráfico
+  labs(x = "Tratamento", 
+       y = "Média Estimada (Probabilidade)",
+       title = "Médias por Tratamento com Intervalo de Confiança (95%)") +
+  theme_classic()
+```
+
+## Conjunto mofo 
+
+```{r}
+
+mofo <- read_excel("dados_diversos.xlsx","mofo")
+
+# Respostas: incidencias, massa esclerodio e produtividade
+#Study: experimentos diferentes
+ library(ggthemes)
+mofo|>
+  ggplot(aes(inc, scl, color = factor(study)))+
+  geom_point()+
+  geom_smooth(method = "lm", se = F)+ # coloca a reta 
+  # Adiciona a correlação. label.x.npc define a posição horizontal (0 a 1)
+  stat_cor(show.legend = FALSE) +
+  scale_color_colorblind()+
+  theme_classic()
+ 
+
+# Coefciente de coorelação
+
+cor.test(mofo$inc, mofo$yld) # -0,38 (com funcao cor)
+
+mofo2 <- mofo|>
+  group_by(study) |>
+  summarise(correlacao = cor(inc, yld)) # mostra que a correlacção é alta quando faz separadamnete
+
+summary(mofo2)
+
+hist(mofo$yld)
+hist(mofo$inc)
+hist(log(mofo$scl))
+```
+
+```{r}
+
+# Grafico com coeficiente de correlacao: relacao entre repostas numericas continuas
+
+library(ggplot2)
+library(ggpubr) # Necessário para stat_cor
+
+mofo |> 
+  ggplot(aes(inc, scl)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") +
+  # Adiciona a correlação de Pearson (R) e o p-valor
+  stat_cor(aes(label = paste(..r.label.., ..p.label.., sep = "~`,`~")), 
+           label.x = 3, method = "pearson") + 
+  facet_wrap(~study) +
+  theme_minimal()
+
+```
