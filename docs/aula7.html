@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Análise e visualização de dados em Fitopatologia - FIP 606 - aula7</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Análise e visualização de dados em Fitopatologia - FIP 606</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html" rel="" target=""><i class="bi bi-house-door" role="img">
+</i> 
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-aulas" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+      <i class="bi bi-journal-bookmark" role="img">
+</i> 
+ <span class="menu-text">Aulas</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-aulas">    
+        <li>
+    <a class="dropdown-item" href="./aula1.html" rel="" target=""><i class="bi bi-book" role="img">
+</i> 
+ <span class="dropdown-text">Introdução</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./aula2.html" rel="" target=""><i class="bi bi-bar-chart-line" role="img">
+</i> 
+ <span class="dropdown-text">Gráficos</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./aula4.html" rel="" target=""><i class="bi bi-layers-half" role="img">
+</i> 
+ <span class="dropdown-text">ANOVA</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./aula5.html" rel="" target=""><i class="bi bi-spellcheck" role="img">
+</i> 
+ <span class="dropdown-text">Teste de médias</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./aula6.html" rel="" target=""><i class="bi bi-calculator" role="img">
+</i> 
+ <span class="dropdown-text">Fatorial</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./aula7.html" rel="" target=""><i class="bi bi-layout-split" role="img">
+</i> 
+ <span class="dropdown-text">Parcelas subdivididas</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#delineamento-em-parcelas-subdivididas" id="toc-delineamento-em-parcelas-subdivididas" class="nav-link active" data-scroll-target="#delineamento-em-parcelas-subdivididas"><span class="header-section-number">1</span> <strong>Delineamento em parcelas subdivididas</strong></a>
+  <ul class="collapse">
+  <li><a href="#pacotes-utilizados" id="toc-pacotes-utilizados" class="nav-link" data-scroll-target="#pacotes-utilizados"><span class="header-section-number">1.1</span> Pacotes utilizados</a></li>
+  <li><a href="#conjunto-de-dados-milho" id="toc-conjunto-de-dados-milho" class="nav-link" data-scroll-target="#conjunto-de-dados-milho"><span class="header-section-number">1.2</span> Conjunto de dados: milho</a>
+  <ul class="collapse">
+  <li><a href="#visualizar-dados" id="toc-visualizar-dados" class="nav-link" data-scroll-target="#visualizar-dados"><span class="header-section-number">1.2.1</span> Visualizar dados</a></li>
+  <li><a href="#análise-dos-dados-anova" id="toc-análise-dos-dados-anova" class="nav-link" data-scroll-target="#análise-dos-dados-anova"><span class="header-section-number">1.2.2</span> Análise dos dados: ANOVA</a></li>
+  <li><a href="#verificar-os-pressupostos-index" id="toc-verificar-os-pressupostos-index" class="nav-link" data-scroll-target="#verificar-os-pressupostos-index"><span class="header-section-number">1.2.3</span> Verificar os pressupostos: index</a></li>
+  <li><a href="#modelo-linear-misto-para-incidência" id="toc-modelo-linear-misto-para-incidência" class="nav-link" data-scroll-target="#modelo-linear-misto-para-incidência"><span class="header-section-number">1.2.4</span> Modelo linear misto: para incidência</a></li>
+  <li><a href="#modelo-linear-misto-produtividade" id="toc-modelo-linear-misto-produtividade" class="nav-link" data-scroll-target="#modelo-linear-misto-produtividade"><span class="header-section-number">1.2.5</span> Modelo linear misto: produtividade</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">aula7</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="delineamento-em-parcelas-subdivididas" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> <strong>Delineamento em parcelas subdivididas</strong></h1>
+<section id="pacotes-utilizados" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="pacotes-utilizados"><span class="header-section-number">1.1</span> Pacotes utilizados</h2>
+<div class="cell" data-hash="aula7_cache/html/unnamed-chunk-1_885cbccc2e4a797a8045cb1a91191962">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.2     ✔ tibble    3.3.0
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.1.0     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(performance)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car) <span class="co"># Teste de Levene</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: carData
+
+Attaching package: 'car'
+
+The following object is masked from 'package:dplyr':
+
+    recode
+
+The following object is masked from 'package:purrr':
+
+    some</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Matrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'Matrix'
+
+The following objects are masked from 'package:tidyr':
+
+    expand, pack, unpack</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmerTest)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'lmerTest'
+
+The following object is masked from 'package:lme4':
+
+    lmer
+
+The following object is masked from 'package:stats':
+
+    step</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DHARMa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>This is DHARMa 0.4.7. For overview type '?DHARMa'. For recent changes, type news(package = 'DHARMa')</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Welcome to emmeans.
+Caution: You lose important information if you filter this package's results.
+See '? untidy'</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(multcomp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: mvtnorm
+Loading required package: survival
+Loading required package: TH.data
+Loading required package: MASS
+
+Attaching package: 'MASS'
+
+The following object is masked from 'package:dplyr':
+
+    select
+
+
+Attaching package: 'TH.data'
+
+The following object is masked from 'package:MASS':
+
+    geyser</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr) <span class="co"># Tabela</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="conjunto-de-dados-milho" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="conjunto-de-dados-milho"><span class="header-section-number">1.2</span> Conjunto de dados: milho</h2>
+<section id="visualizar-dados" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="visualizar-dados"><span class="header-section-number">1.2.1</span> Visualizar dados</h3>
+<div class="cell" data-hash="aula7_cache/html/unnamed-chunk-2_ba4fbe321e4714694830cc6a57d8af2b">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>milho <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"dados_diversos.xlsx"</span>, <span class="st">"milho"</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Gráfico por mim: box -  precisa ter mais pontos, se nao tiver relacao, pode usar</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>milho <span class="sc">|&gt;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(hybrid, yield))<span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.colour =</span> <span class="cn">NA</span>)<span class="sc">+</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.1</span>)<span class="sc">+</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="aula7_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>milho <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(hybrid, index, <span class="at">color =</span> method))<span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.colour =</span> <span class="cn">NA</span>)<span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.1</span>)<span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="aula7_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico pelo  professor</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Variáveis categóricas devem estar como fatores</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>milho <span class="ot">&lt;-</span> milho <span class="sc">|&gt;</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">block =</span> <span class="fu">as.factor</span>(block),</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">hybrid =</span> <span class="fu">as.factor</span>(hybrid),</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="fu">as.factor</span>(method)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráficos:</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Índice de infecção por híbrido e método</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>milho <span class="sc">|&gt;</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> hybrid, <span class="at">y =</span> index, <span class="at">color =</span> method)) <span class="sc">+</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">position =</span> <span class="fu">position_jitterdodge</span>(<span class="at">jitter.width =</span> <span class="fl">0.08</span>, <span class="at">dodge.width =</span> <span class="fl">0.6</span>), <span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Híbrido"</span>,</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Índice de infecção"</span>,</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Método"</span>,</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Índice de infecção por híbrido e método"</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="aula7_files/figure-html/unnamed-chunk-2-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Produtividade por método</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>milho <span class="sc">|&gt;</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(hybrid, yield, <span class="at">color =</span> method))<span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.5</span>))<span class="sc">+</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="aula7_files/figure-html/unnamed-chunk-2-4.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="análise-dos-dados-anova" class="level3" data-number="1.2.2">
+<h3 data-number="1.2.2" class="anchored" data-anchor-id="análise-dos-dados-anova"><span class="header-section-number">1.2.2</span> Análise dos dados: ANOVA</h3>
+<div class="cell" data-hash="aula7_cache/html/unnamed-chunk-3_afacf9e3625c28a1349b814efd60ec60">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Associação com a incidência</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>n1 <span class="ot">&lt;-</span> <span class="fu">aov</span>(index <span class="sc">~</span> hybrid <span class="sc">*</span> method <span class="sc">+</span> <span class="fu">Error</span>(block<span class="sc">/</span>hybrid), <span class="at">data =</span> milho) <span class="co">#error da parcela principal: associado à comparação entre híbridos; erro da subparcela: associado ao método e à interação híbrido × método</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(n1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Error: block
+          Df Sum Sq Mean Sq F value Pr(&gt;F)
+Residuals  3  592.2   197.4               
+
+Error: block:hybrid
+          Df Sum Sq Mean Sq F value Pr(&gt;F)  
+hybrid     5  974.2  194.84    3.14 0.0389 *
+Residuals 15  930.9   62.06                 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Error: Within
+              Df Sum Sq Mean Sq F value Pr(&gt;F)  
+method         1  79.61   79.61   4.726 0.0433 *
+hybrid:method  5 265.28   53.06   3.150 0.0324 *
+Residuals     18 303.18   16.84                 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Foi testado: efeito principal do híbrido, do método e a interação de ambos</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Associação com a produtividade</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>n2 <span class="ot">&lt;-</span> <span class="fu">aov</span>(yield <span class="sc">~</span> hybrid <span class="sc">*</span> method <span class="sc">+</span> <span class="fu">Error</span>(block<span class="sc">/</span>hybrid), <span class="at">data =</span> milho)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(n2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Error: block
+          Df   Sum Sq Mean Sq F value Pr(&gt;F)
+Residuals  3 22296874 7432291               
+
+Error: block:hybrid
+          Df    Sum Sq  Mean Sq F value  Pr(&gt;F)   
+hybrid     5 105876446 21175289    5.12 0.00616 **
+Residuals 15  62040180  4136012                   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Error: Within
+              Df   Sum Sq Mean Sq F value  Pr(&gt;F)   
+method         1    42951   42951   0.105 0.74980   
+hybrid:method  5 10619453 2123891   5.185 0.00403 **
+Residuals     18  7372539  409585                   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</section>
+<section id="verificar-os-pressupostos-index" class="level3" data-number="1.2.3">
+<h3 data-number="1.2.3" class="anchored" data-anchor-id="verificar-os-pressupostos-index"><span class="header-section-number">1.2.3</span> Verificar os pressupostos: index</h3>
+<div class="cell" data-hash="aula7_cache/html/unnamed-chunk-4_8368f4a2286fe9ccf69faf82d58919b3">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#extrair residuos</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>residuos_n1 <span class="ot">&lt;-</span> <span class="fu">residuals</span>(n1<span class="sc">$</span>Within)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  residuos_n1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        25         26         27         28         29         30         31 
+-4.9172564  0.8336291  2.4636233  2.5305357  3.7418231 -3.3835494 -0.8007314 
+        32         33         34         35         36         37         38 
+ 0.8977235  2.7281511 -3.1553051 -1.7273172  2.5204356  7.7920378  1.2827170 
+        39         40         41         42         43         44         45 
+-3.2559856 -5.5009849  4.5152213  4.8663873 -6.8457799 -2.2496703  1.9537540 
+        46         47         48 
+ 1.0423003  0.1068041 -2.8396207 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(residuos_n1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  residuos_n1
+W = 0.9801, p-value = 0.8978</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leveneTest</span>(index <span class="sc">~</span> hybrid <span class="sc">*</span> method, <span class="at">data =</span> milho)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Levene's Test for Homogeneity of Variance (center = median)
+      Df F value  Pr(&gt;F)  
+group 11  2.1493 0.04152 *
+      36                  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Hybrid</th>
+<th>silk</th>
+<th>pin</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>30F53 HX</td>
+<td>25.0 a A</td>
+<td>25.3 ab A</td>
+</tr>
+<tr class="even">
+<td>30F53 YH</td>
+<td>26.2 a A</td>
+<td>24.6 ab A</td>
+</tr>
+<tr class="odd">
+<td>30K64</td>
+<td>21.5 a A</td>
+<td>20.6 b A</td>
+</tr>
+<tr class="even">
+<td>30S31H</td>
+<td>26.5 a B</td>
+<td>38.1 a B</td>
+</tr>
+<tr class="odd">
+<td>30S31YH</td>
+<td>26.7 a A</td>
+<td>32.5 ab A</td>
+</tr>
+<tr class="even">
+<td>BG7049H</td>
+<td>19.2 a A</td>
+<td>19.4 b A</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="modelo-linear-misto-para-incidência" class="level3" data-number="1.2.4">
+<h3 data-number="1.2.4" class="anchored" data-anchor-id="modelo-linear-misto-para-incidência"><span class="header-section-number">1.2.4</span> Modelo linear misto: para incidência</h3>
+<div class="cell" data-hash="aula7_cache/html/unnamed-chunk-5_998cc2d9b22eaf7d2074aa1d344bba1f">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mais flexível para experimentos com estrutura hierárquicas. Aqui, híbrido, método e sua interação são tratados como efeitos fixos, pois representam os tratamentos de interesse. Bloco e parcela principal dentro de bloco são tratados como efeitos aleatórios.</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Reconhece que observações dentro da mesma parcela principal tendem a ser mais semelhantes entre si do que observações de parcelas diferentes.</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>misto_index<span class="ot">&lt;-</span> <span class="fu">lmer</span>(index <span class="sc">~</span> hybrid <span class="sc">*</span> method <span class="sc">+</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>                   (<span class="dv">1</span> <span class="sc">|</span> block) <span class="sc">+</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>                   (<span class="dv">1</span> <span class="sc">|</span> block<span class="sc">:</span>hybrid),</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> milho)</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="co"># ANOVA do modelo misto</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(misto_index)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Type III Analysis of Variance Table with Satterthwaite's method
+               Sum Sq Mean Sq NumDF DenDF F value  Pr(&gt;F)  
+hybrid        264.409  52.882     5    15  3.1397 0.03891 *
+method         79.606  79.606     1    18  4.7263 0.04329 *
+hybrid:method 265.281  53.056     5    18  3.1500 0.03240 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(misto_index)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: index ~ hybrid * method + (1 | block) + (1 | block:hybrid)
+   Data: milho
+
+REML criterion at convergence: 247.4
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-1.93617 -0.35931 -0.02199  0.46970  1.25419 
+
+Random effects:
+ Groups       Name        Variance Std.Dev.
+ block:hybrid (Intercept) 22.61    4.755   
+ block        (Intercept) 11.28    3.358   
+ Residual                 16.84    4.104   
+Number of obs: 48, groups:  block:hybrid, 24; block, 4
+
+Fixed effects:
+                            Estimate Std. Error         df t value Pr(&gt;|t|)    
+(Intercept)                2.528e+01  3.561e+00  1.855e+01   7.099 1.08e-06 ***
+hybrid30F53 YH            -6.819e-01  4.441e+00  2.285e+01  -0.154  0.87933    
+hybrid30K64               -4.723e+00  4.441e+00  2.285e+01  -1.063  0.29874    
+hybrid30S31H               1.284e+01  4.441e+00  2.285e+01   2.891  0.00828 ** 
+hybrid30S31YH              7.223e+00  4.441e+00  2.285e+01   1.626  0.11761    
+hybridBG7049H             -5.834e+00  4.441e+00  2.285e+01  -1.314  0.20204    
+methodsilk                -2.778e-01  2.902e+00  1.800e+01  -0.096  0.92479    
+hybrid30F53 YH:methodsilk  1.919e+00  4.104e+00  1.800e+01   0.468  0.64573    
+hybrid30K64:methodsilk     1.181e+00  4.104e+00  1.800e+01   0.288  0.77688    
+hybrid30S31H:methodsilk   -1.133e+01  4.104e+00  1.800e+01  -2.761  0.01287 *  
+hybrid30S31YH:methodsilk  -5.556e+00  4.104e+00  1.800e+01  -1.354  0.19256    
+hybridBG7049H:methodsilk   4.974e-14  4.104e+00  1.800e+01   0.000  1.00000    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) hy30F53YH hy30K64 hy30S31H hy30S31YH hyBG7049H mthdsl
+hybr30F53YH -0.624                                                      
+hybrid30K64 -0.624  0.500                                               
+hybrd30S31H -0.624  0.500     0.500                                     
+hybr30S31YH -0.624  0.500     0.500   0.500                             
+hybrBG7049H -0.624  0.500     0.500   0.500    0.500                    
+methodsilk  -0.407  0.327     0.327   0.327    0.327     0.327          
+hyb30F53YH:  0.288 -0.462    -0.231  -0.231   -0.231    -0.231    -0.707
+hybrd30K64:  0.288 -0.231    -0.462  -0.231   -0.231    -0.231    -0.707
+hybr30S31H:  0.288 -0.231    -0.231  -0.462   -0.231    -0.231    -0.707
+hyb30S31YH:  0.288 -0.231    -0.231  -0.231   -0.462    -0.231    -0.707
+hybBG7049H:  0.288 -0.231    -0.231  -0.231   -0.231    -0.462    -0.707
+            h30F53YH: h30K64: h30S31H: h30S31YH:
+hybr30F53YH                                     
+hybrid30K64                                     
+hybrd30S31H                                     
+hybr30S31YH                                     
+hybrBG7049H                                     
+methodsilk                                      
+hyb30F53YH:                                     
+hybrd30K64:  0.500                              
+hybr30S31H:  0.500     0.500                    
+hyb30S31YH:  0.500     0.500   0.500            
+hybBG7049H:  0.500     0.500   0.500    0.500   </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Esses componentes indicam quanto da variação total é atribuída a:</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1.Diferenças entre parcelas principais dentro de blocos - block:hybrid. O fato de ele ser alto (22.61) comparado ao Residual (16.84) sugere que existe uma variação considerável na resposta dos híbridos dependendo de em qual parte do campo (bloco) eles foram plantados.;</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co">#2.Diferenças entre blocos - block. Ter variância no bloco é bom sinal; significa que usar blocos foi uma decisão correta para isolar esse ruído do resto do experimento.;</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 3.Variação residual entre subparcelas - Residual.</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Pressupostos: pacote DHARma</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">simulateResiduals</span>(misto_index))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="aula7_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<table class="table">
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<section id="médias-marginais-estimadas" class="level4" data-number="1.2.4.1">
+<h4 data-number="1.2.4.1" class="anchored" data-anchor-id="médias-marginais-estimadas"><span class="header-section-number">1.2.4.1</span> Médias marginais estimadas</h4>
+<div class="cell" data-hash="aula7_cache/html/unnamed-chunk-6_bc419d85b75fa12554f492a8046d8973">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparação de métodos dentro de cada híbrido</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>medias_metodo_por_hibrido <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(misto_index, <span class="sc">~</span> method <span class="sc">|</span> hybrid)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>medias_metodo_por_hibrido</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>hybrid = 30F53 HX:
+ method emmean   SE   df lower.CL upper.CL
+ pin      25.3 3.56 18.6     17.8     32.7
+ silk     25.0 3.56 18.6     17.5     32.5
+
+hybrid = 30F53 YH:
+ method emmean   SE   df lower.CL upper.CL
+ pin      24.6 3.56 18.6     17.1     32.1
+ silk     26.2 3.56 18.6     18.8     33.7
+
+hybrid = 30K64:
+ method emmean   SE   df lower.CL upper.CL
+ pin      20.6 3.56 18.6     13.1     28.0
+ silk     21.5 3.56 18.6     14.0     28.9
+
+hybrid = 30S31H:
+ method emmean   SE   df lower.CL upper.CL
+ pin      38.1 3.56 18.6     30.7     45.6
+ silk     26.5 3.56 18.6     19.0     34.0
+
+hybrid = 30S31YH:
+ method emmean   SE   df lower.CL upper.CL
+ pin      32.5 3.56 18.6     25.0     40.0
+ silk     26.7 3.56 18.6     19.2     34.1
+
+hybrid = BG7049H:
+ method emmean   SE   df lower.CL upper.CL
+ pin      19.4 3.56 18.6     12.0     26.9
+ silk     19.2 3.56 18.6     11.7     26.6
+
+Degrees-of-freedom method: kenward-roger 
+Confidence level used: 0.95 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Para cada híbrido, os métodos de inoculação diferem quanto ao índice de infecção?</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>pares_metodo_por_hibrido <span class="ot">&lt;-</span> <span class="fu">pairs</span>(medias_metodo_por_hibrido, <span class="at">adjust =</span> <span class="st">"tukey"</span>)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>pares_metodo_por_hibrido</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>hybrid = 30F53 HX:
+ contrast   estimate  SE df t.ratio p.value
+ pin - silk    0.278 2.9 18   0.096  0.9248
+
+hybrid = 30F53 YH:
+ contrast   estimate  SE df t.ratio p.value
+ pin - silk   -1.641 2.9 18  -0.565  0.5787
+
+hybrid = 30K64:
+ contrast   estimate  SE df t.ratio p.value
+ pin - silk   -0.903 2.9 18  -0.311  0.7593
+
+hybrid = 30S31H:
+ contrast   estimate  SE df t.ratio p.value
+ pin - silk   11.608 2.9 18   4.000  0.0008
+
+hybrid = 30S31YH:
+ contrast   estimate  SE df t.ratio p.value
+ pin - silk    5.834 2.9 18   2.010  0.0596
+
+hybrid = BG7049H:
+ contrast   estimate  SE df t.ratio p.value
+ pin - silk    0.278 2.9 18   0.096  0.9248
+
+Degrees-of-freedom method: kenward-roger </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Resultado: só para o híbrido  30S31H</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Comparação de híbridos dentro de cada método</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>medias_hibrido_por_metodo <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(misto_index, <span class="sc">~</span> hybrid <span class="sc">|</span> method)</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>medias_hibrido_por_metodo</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>method = pin:
+ hybrid   emmean   SE   df lower.CL upper.CL
+ 30F53 HX   25.3 3.56 18.6     17.8     32.7
+ 30F53 YH   24.6 3.56 18.6     17.1     32.1
+ 30K64      20.6 3.56 18.6     13.1     28.0
+ 30S31H     38.1 3.56 18.6     30.7     45.6
+ 30S31YH    32.5 3.56 18.6     25.0     40.0
+ BG7049H    19.4 3.56 18.6     12.0     26.9
+
+method = silk:
+ hybrid   emmean   SE   df lower.CL upper.CL
+ 30F53 HX   25.0 3.56 18.6     17.5     32.5
+ 30F53 YH   26.2 3.56 18.6     18.8     33.7
+ 30K64      21.5 3.56 18.6     14.0     28.9
+ 30S31H     26.5 3.56 18.6     19.0     34.0
+ 30S31YH    26.7 3.56 18.6     19.2     34.1
+ BG7049H    19.2 3.56 18.6     11.7     26.6
+
+Degrees-of-freedom method: kenward-roger 
+Confidence level used: 0.95 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Dentro de cada método de inoculação, quais híbridos diferem quanto ao índice de infecção?</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>pares_hibrido_por_metodo <span class="ot">&lt;-</span> <span class="fu">pairs</span>(medias_hibrido_por_metodo, <span class="at">adjust =</span> <span class="st">"tukey"</span>)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>pares_hibrido_por_metodo</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>method = pin:
+ contrast            estimate   SE   df t.ratio p.value
+ 30F53 HX - 30F53 YH    0.682 4.44 22.8   0.154  1.0000
+ 30F53 HX - 30K64       4.723 4.44 22.8   1.063  0.8907
+ 30F53 HX - 30S31H    -12.838 4.44 22.8  -2.891  0.0780
+ 30F53 HX - 30S31YH    -7.223 4.44 22.8  -1.626  0.5906
+ 30F53 HX - BG7049H     5.834 4.44 22.8   1.314  0.7748
+ 30F53 YH - 30K64       4.041 4.44 22.8   0.910  0.9400
+ 30F53 YH - 30S31H    -13.520 4.44 22.8  -3.044  0.0568
+ 30F53 YH - 30S31YH    -7.905 4.44 22.8  -1.780  0.4972
+ 30F53 YH - BG7049H     5.152 4.44 22.8   1.160  0.8507
+ 30K64 - 30S31H       -17.561 4.44 22.8  -3.954  0.0074
+ 30K64 - 30S31YH      -11.945 4.44 22.8  -2.690  0.1162
+ 30K64 - BG7049H        1.111 4.44 22.8   0.250  0.9998
+ 30S31H - 30S31YH       5.616 4.44 22.8   1.264  0.8006
+ 30S31H - BG7049H      18.672 4.44 22.8   4.204  0.0041
+ 30S31YH - BG7049H     13.057 4.44 22.8   2.940  0.0706
+
+method = silk:
+ contrast            estimate   SE   df t.ratio p.value
+ 30F53 HX - 30F53 YH   -1.237 4.44 22.8  -0.278  0.9997
+ 30F53 HX - 30K64       3.542 4.44 22.8   0.797  0.9651
+ 30F53 HX - 30S31H     -1.508 4.44 22.8  -0.340  0.9993
+ 30F53 HX - 30S31YH    -1.667 4.44 22.8  -0.375  0.9989
+ 30F53 HX - BG7049H     5.834 4.44 22.8   1.314  0.7748
+ 30F53 YH - 30K64       4.779 4.44 22.8   1.076  0.8858
+ 30F53 YH - 30S31H     -0.271 4.44 22.8  -0.061  1.0000
+ 30F53 YH - 30S31YH    -0.430 4.44 22.8  -0.097  1.0000
+ 30F53 YH - BG7049H     7.071 4.44 22.8   1.592  0.6116
+ 30K64 - 30S31H        -5.050 4.44 22.8  -1.137  0.8608
+ 30K64 - 30S31YH       -5.209 4.44 22.8  -1.173  0.8450
+ 30K64 - BG7049H        2.292 4.44 22.8   0.516  0.9950
+ 30S31H - 30S31YH      -0.159 4.44 22.8  -0.036  1.0000
+ 30S31H - BG7049H       7.342 4.44 22.8   1.653  0.5741
+ 30S31YH - BG7049H      7.501 4.44 22.8   1.689  0.5522
+
+Degrees-of-freedom method: kenward-roger 
+P value adjustment: tukey method for comparing a family of 6 estimates </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Resultado - pin: 30S31H - BG7049H      18.672 4.44 22.8   4.204  0.0041 e  30K64 - 30S31H       -17.561 4.44 22.8  -3.954  0.0074</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Letras para híbridos dentro de método</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>letras_hibrido <span class="ot">&lt;-</span> <span class="fu">cld</span>(</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  medias_hibrido_por_metodo,</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">adjust =</span> <span class="st">"tukey"</span>,</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Letters =</span> letters</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">letra_hibrido =</span> <span class="fu">str_trim</span>(.group)</span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(hybrid, method, letra_hibrido)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Note: adjust = "tukey" was changed to "sidak"
+because "tukey" is only appropriate for one set of pairwise comparisons</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Letras para métodos dentro de híbrido</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>letras_metodo <span class="ot">&lt;-</span> <span class="fu">cld</span>(</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  medias_metodo_por_hibrido,</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">adjust =</span> <span class="st">"tukey"</span>,</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Letters =</span> LETTERS</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">letra_metodo =</span> <span class="fu">str_trim</span>(.group)</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(hybrid, method, letra_metodo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Note: adjust = "tukey" was changed to "sidak"
+because "tukey" is only appropriate for one set of pairwise comparisons</code></pre>
+</div>
+</div>
+</section>
+<section id="tabela-final-incidência" class="level4" data-number="1.2.4.2">
+<h4 data-number="1.2.4.2" class="anchored" data-anchor-id="tabela-final-incidência"><span class="header-section-number">1.2.4.2</span> Tabela final: incidência</h4>
+<div class="cell" data-hash="aula7_cache/html/unnamed-chunk-7_ba3e133585e9082e52bf2baa1266f984">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>tabela_medias <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">emmeans</span>(misto_index, <span class="sc">~</span> hybrid <span class="sc">*</span> method)) <span class="sc">|&gt;</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(letras_hibrido, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"hybrid"</span>, <span class="st">"method"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(letras_metodo, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"hybrid"</span>, <span class="st">"method"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">letras =</span> <span class="fu">paste0</span>(letra_hibrido, <span class="st">" "</span>, letra_metodo),</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">emmean =</span> <span class="fu">round</span>(emmean, <span class="dv">1</span>),</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">SE =</span> <span class="fu">round</span>(SE, <span class="dv">2</span>),</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">lower.CL =</span> <span class="fu">round</span>(lower.CL, <span class="dv">1</span>),</span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">upper.CL =</span> <span class="fu">round</span>(upper.CL, <span class="dv">1</span>)</span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(hybrid, method, emmean, SE, lower.CL, upper.CL, letras)</span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>tabela_medias <span class="sc">|&gt;</span></span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(</span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Híbrido"</span>, <span class="st">"Método"</span>, <span class="st">"Média ajustada"</span>, <span class="st">"EP"</span>, <span class="st">"LI 95%"</span>, <span class="st">"LS 95%"</span>, <span class="st">"Letras"</span>),</span>
+<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Médias ajustadas do índice de infecção para cada combinação entre híbrido e método."</span></span>
+<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<caption>Médias ajustadas do índice de infecção para cada combinação entre híbrido e método.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Híbrido</th>
+<th style="text-align: left;">Método</th>
+<th style="text-align: right;">Média ajustada</th>
+<th style="text-align: right;">EP</th>
+<th style="text-align: right;">LI 95%</th>
+<th style="text-align: right;">LS 95%</th>
+<th style="text-align: left;">Letras</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">30F53 HX</td>
+<td style="text-align: left;">pin</td>
+<td style="text-align: right;">25.3</td>
+<td style="text-align: right;">3.56</td>
+<td style="text-align: right;">17.8</td>
+<td style="text-align: right;">32.7</td>
+<td style="text-align: left;">ab A</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">30F53 YH</td>
+<td style="text-align: left;">pin</td>
+<td style="text-align: right;">24.6</td>
+<td style="text-align: right;">3.56</td>
+<td style="text-align: right;">17.1</td>
+<td style="text-align: right;">32.1</td>
+<td style="text-align: left;">ab A</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">30K64</td>
+<td style="text-align: left;">pin</td>
+<td style="text-align: right;">20.6</td>
+<td style="text-align: right;">3.56</td>
+<td style="text-align: right;">13.1</td>
+<td style="text-align: right;">28.0</td>
+<td style="text-align: left;">a A</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">30S31H</td>
+<td style="text-align: left;">pin</td>
+<td style="text-align: right;">38.1</td>
+<td style="text-align: right;">3.56</td>
+<td style="text-align: right;">30.7</td>
+<td style="text-align: right;">45.6</td>
+<td style="text-align: left;">b B</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">30S31YH</td>
+<td style="text-align: left;">pin</td>
+<td style="text-align: right;">32.5</td>
+<td style="text-align: right;">3.56</td>
+<td style="text-align: right;">25.0</td>
+<td style="text-align: right;">40.0</td>
+<td style="text-align: left;">ab A</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BG7049H</td>
+<td style="text-align: left;">pin</td>
+<td style="text-align: right;">19.4</td>
+<td style="text-align: right;">3.56</td>
+<td style="text-align: right;">12.0</td>
+<td style="text-align: right;">26.9</td>
+<td style="text-align: left;">a A</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">30F53 HX</td>
+<td style="text-align: left;">silk</td>
+<td style="text-align: right;">25.0</td>
+<td style="text-align: right;">3.56</td>
+<td style="text-align: right;">17.5</td>
+<td style="text-align: right;">32.5</td>
+<td style="text-align: left;">a A</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">30F53 YH</td>
+<td style="text-align: left;">silk</td>
+<td style="text-align: right;">26.2</td>
+<td style="text-align: right;">3.56</td>
+<td style="text-align: right;">18.8</td>
+<td style="text-align: right;">33.7</td>
+<td style="text-align: left;">a A</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">30K64</td>
+<td style="text-align: left;">silk</td>
+<td style="text-align: right;">21.5</td>
+<td style="text-align: right;">3.56</td>
+<td style="text-align: right;">14.0</td>
+<td style="text-align: right;">28.9</td>
+<td style="text-align: left;">a A</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">30S31H</td>
+<td style="text-align: left;">silk</td>
+<td style="text-align: right;">26.5</td>
+<td style="text-align: right;">3.56</td>
+<td style="text-align: right;">19.0</td>
+<td style="text-align: right;">34.0</td>
+<td style="text-align: left;">a A</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">30S31YH</td>
+<td style="text-align: left;">silk</td>
+<td style="text-align: right;">26.7</td>
+<td style="text-align: right;">3.56</td>
+<td style="text-align: right;">19.2</td>
+<td style="text-align: right;">34.1</td>
+<td style="text-align: left;">a A</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BG7049H</td>
+<td style="text-align: left;">silk</td>
+<td style="text-align: right;">19.2</td>
+<td style="text-align: right;">3.56</td>
+<td style="text-align: right;">11.7</td>
+<td style="text-align: right;">26.6</td>
+<td style="text-align: left;">a A</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="gráfico-final" class="level4" data-number="1.2.4.3">
+<h4 data-number="1.2.4.3" class="anchored" data-anchor-id="gráfico-final"><span class="header-section-number">1.2.4.3</span> Gráfico final</h4>
+<div class="cell" data-hash="aula7_cache/html/unnamed-chunk-8_a2013eaab7d609229a7c2b32f766f4ed">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>df_grafico <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">emmeans</span>(misto_index, <span class="sc">~</span> hybrid <span class="sc">*</span> method)) <span class="sc">|&gt;</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(letras_hibrido, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"hybrid"</span>, <span class="st">"method"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(letras_metodo, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"hybrid"</span>, <span class="st">"method"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">letras =</span> <span class="fu">paste0</span>(letra_hibrido, <span class="st">" "</span>, letra_metodo),</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">ymax =</span> emmean <span class="sc">+</span> SE</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_grafico, <span class="fu">aes</span>(<span class="at">x =</span> hybrid, <span class="at">y =</span> emmean, <span class="at">fill =</span> method)) <span class="sc">+</span></span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(</span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>),</span>
+<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">width =</span> <span class="fl">0.7</span>,</span>
+<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"black"</span></span>
+<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(</span>
+<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">ymin =</span> emmean <span class="sc">-</span> SE, <span class="at">ymax =</span> emmean <span class="sc">+</span> SE),</span>
+<span id="cb48-18"><a href="#cb48-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>),</span>
+<span id="cb48-19"><a href="#cb48-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">width =</span> <span class="fl">0.2</span></span>
+<span id="cb48-20"><a href="#cb48-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb48-21"><a href="#cb48-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(</span>
+<span id="cb48-22"><a href="#cb48-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> letras, <span class="at">y =</span> ymax <span class="sc">+</span> <span class="dv">2</span>),</span>
+<span id="cb48-23"><a href="#cb48-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>),</span>
+<span id="cb48-24"><a href="#cb48-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">3.5</span>,</span>
+<span id="cb48-25"><a href="#cb48-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">fontface =</span> <span class="st">"bold"</span></span>
+<span id="cb48-26"><a href="#cb48-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb48-27"><a href="#cb48-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb48-28"><a href="#cb48-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Híbrido"</span>,</span>
+<span id="cb48-29"><a href="#cb48-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Índice de infecção"</span>,</span>
+<span id="cb48-30"><a href="#cb48-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Método"</span>,</span>
+<span id="cb48-31"><a href="#cb48-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Índice de infecção por híbrido e método de inoculação"</span>,</span>
+<span id="cb48-32"><a href="#cb48-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Barras representam médias ajustadas pelo modelo misto; barras de erro representam ± 1 erro padrão"</span></span>
+<span id="cb48-33"><a href="#cb48-33" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb48-34"><a href="#cb48-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb48-35"><a href="#cb48-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb48-36"><a href="#cb48-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb48-37"><a href="#cb48-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"top"</span></span>
+<span id="cb48-38"><a href="#cb48-38" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="aula7_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co">#letras minúsculas: comparação entre híbridos dentro do mesmo método;</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="co">#letras maiúsculas: comparação entre métodos dentro do mesmo híbrido.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="modelo-linear-misto-produtividade" class="level3" data-number="1.2.5">
+<h3 data-number="1.2.5" class="anchored" data-anchor-id="modelo-linear-misto-produtividade"><span class="header-section-number">1.2.5</span> Modelo linear misto: produtividade</h3>
+<div class="cell" data-hash="aula7_cache/html/unnamed-chunk-9_e8e0c908e758ebb7ecebc705f80d04a1">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>modelo_yield <span class="ot">&lt;-</span> <span class="fu">lmer</span>(</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  yield <span class="sc">~</span> hybrid <span class="sc">*</span> method <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> block) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> block<span class="sc">:</span>hybrid),</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> milho</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(modelo_yield)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Type III Analysis of Variance Table with Satterthwaite's method
+                Sum Sq Mean Sq NumDF DenDF F value   Pr(&gt;F)   
+hybrid        10484850 2096970     5    15  5.1197 0.006156 **
+method           42950   42950     1    18  0.1049 0.749803   
+hybrid:method 10619453 2123891     5    18  5.1855 0.004034 **
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo_yield)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: yield ~ hybrid * method + (1 | block) + (1 | block:hybrid)
+   Data: milho
+
+REML criterion at convergence: 627.4
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-1.29046 -0.53362  0.09722  0.45539  1.24220 
+
+Random effects:
+ Groups       Name        Variance Std.Dev.
+ block:hybrid (Intercept) 1863213  1365.0  
+ block        (Intercept)  274689   524.1  
+ Residual                  409586   640.0  
+Number of obs: 48, groups:  block:hybrid, 24; block, 4
+
+Fixed effects:
+                          Estimate Std. Error       df t value Pr(&gt;|t|)    
+(Intercept)               11207.50     798.04    19.77  14.044 9.57e-12 ***
+hybrid30F53 YH            -1800.00    1066.02    17.97  -1.689  0.10859    
+hybrid30K64                 467.50    1066.02    17.97   0.439  0.66622    
+hybrid30S31H              -3089.50    1066.02    17.97  -2.898  0.00959 ** 
+hybrid30S31YH             -3371.50    1066.02    17.97  -3.163  0.00539 ** 
+hybridBG7049H               762.50    1066.02    17.97   0.715  0.48363    
+methodsilk                -1219.68     452.54    18.00  -2.695  0.01480 *  
+hybrid30F53 YH:methodsilk  1023.17     639.99    18.00   1.599  0.12729    
+hybrid30K64:methodsilk      -94.31     639.99    18.00  -0.147  0.88449    
+hybrid30S31H:methodsilk    2286.81     639.99    18.00   3.573  0.00217 ** 
+hybrid30S31YH:methodsilk   1660.41     639.99    18.00   2.594  0.01831 *  
+hybridBG7049H:methodsilk   2083.05     639.99    18.00   3.255  0.00440 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) hy30F53YH hy30K64 hy30S31H hy30S31YH hyBG7049H mthdsl
+hybr30F53YH -0.668                                                      
+hybrid30K64 -0.668  0.500                                               
+hybrd30S31H -0.668  0.500     0.500                                     
+hybr30S31YH -0.668  0.500     0.500   0.500                             
+hybrBG7049H -0.668  0.500     0.500   0.500    0.500                    
+methodsilk  -0.284  0.212     0.212   0.212    0.212     0.212          
+hyb30F53YH:  0.200 -0.300    -0.150  -0.150   -0.150    -0.150    -0.707
+hybrd30K64:  0.200 -0.150    -0.300  -0.150   -0.150    -0.150    -0.707
+hybr30S31H:  0.200 -0.150    -0.150  -0.300   -0.150    -0.150    -0.707
+hyb30S31YH:  0.200 -0.150    -0.150  -0.150   -0.300    -0.150    -0.707
+hybBG7049H:  0.200 -0.150    -0.150  -0.150   -0.150    -0.300    -0.707
+            h30F53YH: h30K64: h30S31H: h30S31YH:
+hybr30F53YH                                     
+hybrid30K64                                     
+hybrd30S31H                                     
+hybr30S31YH                                     
+hybrBG7049H                                     
+methodsilk                                      
+hyb30F53YH:                                     
+hybrd30K64:  0.500                              
+hybr30S31H:  0.500     0.500                    
+hyb30S31YH:  0.500     0.500   0.500            
+hybBG7049H:  0.500     0.500   0.500    0.500   </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">simulateResiduals</span>(modelo_yield))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="aula7_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparação das médias</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Dentro de cada método, teve difernça entre os híbridos?</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>medias_hibrido_yield <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(modelo_yield, <span class="sc">~</span> hybrid <span class="sc">|</span> method)</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>letras_hibrido_yield <span class="ot">&lt;-</span> <span class="fu">cld</span>(medias_hibrido_yield, <span class="at">Letters =</span> letters, <span class="at">adjust =</span> <span class="st">"tukey"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">letra_hibrido =</span> <span class="fu">str_trim</span>(.group)) <span class="sc">%&gt;%</span></span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(hybrid, method, letra_hibrido)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Note: adjust = "tukey" was changed to "sidak"
+because "tukey" is only appropriate for one set of pairwise comparisons</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>letras_hibrido_yield </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 3
+   hybrid   method letra_hibrido
+   &lt;fct&gt;    &lt;fct&gt;  &lt;chr&gt;        
+ 1 30S31YH  pin    a            
+ 2 30S31H   pin    a            
+ 3 30F53 YH pin    ab           
+ 4 30F53 HX pin    ab           
+ 5 30K64    pin    b            
+ 6 BG7049H  pin    b            
+ 7 30S31YH  silk   a            
+ 8 30S31H   silk   a            
+ 9 30F53 YH silk   a            
+10 30F53 HX silk   ab           
+11 30K64    silk   ab           
+12 BG7049H  silk   b            </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dentro de cada híbrido, o método alterou a produtividade?</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Médias e Letras (Maiúsculas para Métodos)</span></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>medias_metodo_yield <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(modelo_yield, <span class="sc">~</span> method <span class="sc">|</span> hybrid)</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>letras_metodo_yield <span class="ot">&lt;-</span> <span class="fu">cld</span>(medias_metodo_yield, <span class="at">Letters =</span> LETTERS, <span class="at">adjust =</span> <span class="st">"tukey"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">letra_metodo =</span> <span class="fu">str_trim</span>(.group)) <span class="sc">%&gt;%</span></span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(hybrid, method, letra_metodo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Note: adjust = "tukey" was changed to "sidak"
+because "tukey" is only appropriate for one set of pairwise comparisons</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>letras_metodo_yield</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 3
+   hybrid   method letra_metodo
+   &lt;fct&gt;    &lt;fct&gt;  &lt;chr&gt;       
+ 1 30F53 HX silk   A           
+ 2 30F53 HX pin    B           
+ 3 30F53 YH silk   A           
+ 4 30F53 YH pin    A           
+ 5 30K64    silk   A           
+ 6 30K64    pin    B           
+ 7 30S31H   pin    A           
+ 8 30S31H   silk   B           
+ 9 30S31YH  pin    A           
+10 30S31YH  silk   A           
+11 BG7049H  pin    A           
+12 BG7049H  silk   A           </code></pre>
+</div>
+</div>
+<section id="tabela-final-produtividade" class="level4" data-number="1.2.5.1">
+<h4 data-number="1.2.5.1" class="anchored" data-anchor-id="tabela-final-produtividade"><span class="header-section-number">1.2.5.1</span> Tabela final: produtividade</h4>
+<div class="cell" data-hash="aula7_cache/html/unnamed-chunk-10_528bdaf54084b21b2cdc297c02928dee">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Unindo tudo em uma tabela mestre</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>tabela_produtividade <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">emmeans</span>(modelo_yield, <span class="sc">~</span> hybrid <span class="sc">*</span> method)) <span class="sc">%&gt;%</span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(letras_hibrido_yield, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"hybrid"</span>, <span class="st">"method"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(letras_metodo_yield, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"hybrid"</span>, <span class="st">"method"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Criando a coluna de letras combinadas (ex: a A)</span></span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">letras_finais =</span> <span class="fu">paste0</span>(letra_hibrido, <span class="st">" "</span>, letra_metodo),</span>
+<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">emmean =</span> <span class="fu">round</span>(emmean, <span class="dv">0</span>),</span>
+<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">SE =</span> <span class="fu">round</span>(SE, <span class="dv">1</span>)</span>
+<span id="cb63-10"><a href="#cb63-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb63-11"><a href="#cb63-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-12"><a href="#cb63-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizar a tabela pronta para o seu relatório</span></span>
+<span id="cb63-13"><a href="#cb63-13" aria-hidden="true" tabindex="-1"></a>tabela_produtividade <span class="sc">%&gt;%</span></span>
+<span id="cb63-14"><a href="#cb63-14" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(hybrid, method, emmean, SE, letras_finais) <span class="sc">%&gt;%</span></span>
+<span id="cb63-15"><a href="#cb63-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Híbrido"</span>, <span class="st">"Método"</span>, <span class="st">"Produtividade (kg/ha)"</span>, <span class="st">"Erro Padrão"</span>, <span class="st">"Letras (híb mtd)"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 10%">
+<col style="width: 32%">
+<col style="width: 17%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Híbrido</th>
+<th style="text-align: left;">Método</th>
+<th style="text-align: right;">Produtividade (kg/ha)</th>
+<th style="text-align: right;">Erro Padrão</th>
+<th style="text-align: left;">Letras (híb mtd)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">30F53 HX</td>
+<td style="text-align: left;">pin</td>
+<td style="text-align: right;">11207</td>
+<td style="text-align: right;">798</td>
+<td style="text-align: left;">ab B</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">30F53 YH</td>
+<td style="text-align: left;">pin</td>
+<td style="text-align: right;">9407</td>
+<td style="text-align: right;">798</td>
+<td style="text-align: left;">ab A</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">30K64</td>
+<td style="text-align: left;">pin</td>
+<td style="text-align: right;">11675</td>
+<td style="text-align: right;">798</td>
+<td style="text-align: left;">b B</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">30S31H</td>
+<td style="text-align: left;">pin</td>
+<td style="text-align: right;">8118</td>
+<td style="text-align: right;">798</td>
+<td style="text-align: left;">a A</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">30S31YH</td>
+<td style="text-align: left;">pin</td>
+<td style="text-align: right;">7836</td>
+<td style="text-align: right;">798</td>
+<td style="text-align: left;">a A</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BG7049H</td>
+<td style="text-align: left;">pin</td>
+<td style="text-align: right;">11970</td>
+<td style="text-align: right;">798</td>
+<td style="text-align: left;">b A</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">30F53 HX</td>
+<td style="text-align: left;">silk</td>
+<td style="text-align: right;">9988</td>
+<td style="text-align: right;">798</td>
+<td style="text-align: left;">ab A</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">30F53 YH</td>
+<td style="text-align: left;">silk</td>
+<td style="text-align: right;">9211</td>
+<td style="text-align: right;">798</td>
+<td style="text-align: left;">a A</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">30K64</td>
+<td style="text-align: left;">silk</td>
+<td style="text-align: right;">10361</td>
+<td style="text-align: right;">798</td>
+<td style="text-align: left;">ab A</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">30S31H</td>
+<td style="text-align: left;">silk</td>
+<td style="text-align: right;">9185</td>
+<td style="text-align: right;">798</td>
+<td style="text-align: left;">a B</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">30S31YH</td>
+<td style="text-align: left;">silk</td>
+<td style="text-align: right;">8277</td>
+<td style="text-align: right;">798</td>
+<td style="text-align: left;">a A</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BG7049H</td>
+<td style="text-align: left;">silk</td>
+<td style="text-align: right;">12833</td>
+<td style="text-align: right;">798</td>
+<td style="text-align: left;">b A</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="gráfico-final-produtividade" class="level4" data-number="1.2.5.2">
+<h4 data-number="1.2.5.2" class="anchored" data-anchor-id="gráfico-final-produtividade"><span class="header-section-number">1.2.5.2</span> Gráfico final: produtividade</h4>
+<div class="cell" data-hash="aula7_cache/html/unnamed-chunk-11_a5172e5961eb2fe14a177b41cb1911ed">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tabela_produtividade, <span class="fu">aes</span>(<span class="at">x =</span> hybrid, <span class="at">y =</span> emmean, <span class="at">fill =</span> method)) <span class="sc">+</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>), <span class="at">width =</span> <span class="fl">0.7</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(</span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">ymin =</span> emmean <span class="sc">-</span> SE, <span class="at">ymax =</span> emmean <span class="sc">+</span> SE),</span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>),</span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">width =</span> <span class="fl">0.2</span></span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(</span>
+<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> letras_finais, <span class="at">y =</span> emmean <span class="sc">+</span> SE <span class="sc">+</span> <span class="dv">400</span>), <span class="co"># 400 é um respiro acima da barra</span></span>
+<span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>),</span>
+<span id="cb64-11"><a href="#cb64-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">3.5</span>,</span>
+<span id="cb64-12"><a href="#cb64-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">fontface =</span> <span class="st">"bold"</span></span>
+<span id="cb64-13"><a href="#cb64-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb64-14"><a href="#cb64-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">"Set1"</span>) <span class="sc">+</span> <span class="co"># Cores mais bonitas</span></span>
+<span id="cb64-15"><a href="#cb64-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb64-16"><a href="#cb64-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Híbrido de Milho"</span>,</span>
+<span id="cb64-17"><a href="#cb64-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Produtividade (kg/ha)"</span>,</span>
+<span id="cb64-18"><a href="#cb64-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Método de Inoculação"</span>,</span>
+<span id="cb64-19"><a href="#cb64-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Produtividade de Grãos por Híbrido e Método"</span>,</span>
+<span id="cb64-20"><a href="#cb64-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Letras minúsculas comparam híbridos; Maiúsculas comparam métodos"</span></span>
+<span id="cb64-21"><a href="#cb64-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb64-22"><a href="#cb64-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb64-23"><a href="#cb64-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb64-24"><a href="#cb64-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb64-25"><a href="#cb64-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"top"</span></span>
+<span id="cb64-26"><a href="#cb64-26" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="aula7_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+
+
+</section>
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
